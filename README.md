@@ -3,7 +3,7 @@
 > It's a customize player developed in Vue.js.
 ![player view](./src/assets/playerlooks.png)
 
-#Test
+# Test
 [Try it](https://misty-duck.glitch.me/vueplayer/test)
 
 
