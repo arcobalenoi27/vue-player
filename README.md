@@ -3,10 +3,7 @@
 > It's a customize player developed in Vue.js.
 ![player view](./src/assets/playerlooks.png)
 
-## Summary
-When user's device is mobile, it will display as original HTML5 player.
-
-# Test
+#Test
 [Try it](https://misty-duck.glitch.me/vueplayer/test)
 
 

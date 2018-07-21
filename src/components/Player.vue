@@ -4,7 +4,7 @@
         <video :src="src" controls></video>
     </div>
     <div v-if="isPC" class="player" ref="player">
-        <video  ref="video" @timeupdate="updatVideoTime">
+        <video  ref="video" @timeupdate="updatVideoTime" @canplaythrough="canPlay">
             <source :src="src" type="video/mp4"/>
         </video>
         <div class="screen" @click="playOrPause">
@@ -14,6 +14,9 @@
                 </span>
                 <span class="volume">{{`${volumeVal}%`}}</span>
             </div>
+        </div>
+        <div class="loading" ref="loadingHint">
+            <span class="loading-hint">Loading...</span>
         </div>
         <div class="control-bar" ref="controlbar">
         <div class="progress-track" @click="load" @mousemove.stop="preview" @mouseleave="hidePreview">
@@ -254,6 +257,9 @@ export default {
           setTimeout(function() {
               dom.style.display = 'none';
           }, 500);
+      },
+      canPlay () {
+          this.disappear(this.$refs.loadingHint);
       }
   },
   mounted() {
@@ -340,6 +346,14 @@ $progress-color: #00a1d6;
         box-shadow:  0 0 1px #f00;
     }
 }
+@mixin center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
 * {
     box-sizing: border-box;
 }
@@ -566,5 +580,21 @@ input[type=range]::-webkit-slider-runnable-track {
 .fullscreen-wrap {
     width: 35px;
     height: 100%;
+}
+
+.loading {
+    position: absolute;
+    top: 47%;
+    left: 48%;
+    transform: translate(-50%,-50%);
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    color: white;
+    background-color:aquamarine;
+    & > .loading-hint {
+        @include center;
+        font-weight: 700;
+    }
 }
 </style>

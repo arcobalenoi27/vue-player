@@ -9,9 +9,12 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
+const pwcrypt = require('./pwcrypt.js')
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
+let data = []
+let validation = []
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -42,6 +45,36 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
+    },
+    before(app) {
+      var bodyParser = require('body-parser')
+      var crypto = require('crypto')    
+      app.use(bodyParser.json())
+      app.get('/resources', (req, res) => {
+        res.send(JSON.stringify(data))
+        
+      })
+      app.post('/updateResources', (req, res) => {
+        data.unshift(req.body.shift())
+        var mutation = req.body.shift()
+        var result = pwcrypt.hashPassword(mutation.password)
+        result.id = mutation.id
+        validation.unshift(result)
+        console.log(validation)
+      })
+      app.post('/delete', (req, res) => {
+        var toValidate = req.body.shift(), index = -1
+        for (let i=0; i< validation.length; i++) {
+          if (toValidate.id == validation[i].id) {
+            index = i;
+            break;
+          }
+        }
+        if (pwcrypt.isPasswordCorrect(validation[index].hash, validation[index].salt, validation[index].iterations, toValidate.password)) {
+          validation.splice(index, 1);
+          data.splice(index, 1);
+        }
+      })
     }
   },
   plugins: [

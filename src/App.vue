@@ -1,18 +1,19 @@
 <template>
   <div id="app">
-    <Player src=""/>
+    <router-link :to="{ path: '/demo/vueplayer'}">vue-player test</router-link>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 
-import Player from './components/Player'
+import Vue from 'vue'
+import Router from 'vue-router'
 
+
+Vue.use(Router)
 export default {
-  name: 'App',
-  components: {
-    Player
-  }
+  name: 'App'
 }
 </script>
 
