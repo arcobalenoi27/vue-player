@@ -4,7 +4,7 @@
 ![player view](./src/assets/playerlooks.png)
 
 #Test
-[Try it](https://misty-duck.glitch.me/vueplayer/test)
+[Try it](https://tranquil-meteorology.glitch.me/#/demo/vueplayer)
 
 
 ## Example
